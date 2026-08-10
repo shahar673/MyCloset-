@@ -1,7 +1,0 @@
-cd mycloset-android
-git init
-git add .
-git commit -m "MyCloset Android wrapper"
-git branch -M main
-git remote add origin https://github.com/USERNAME/mycloset-android.git
-git push -u origin main
