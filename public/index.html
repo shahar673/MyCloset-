@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>MyCloset - הארון הדיגיטלי שלי</title>
+<meta name="description" content="הארון הדיגיטלי שלך, עם עין סגנונית משלו">
+
+<!-- PWA / installability -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#15131a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MyCloset">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="icon" href="/icons/icon-192.png">
+
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <!-- ============ AUTH SCREEN ============ -->
+  <div class="auth-wrap" id="authScreen">
+    <div class="auth-card">
+      <p class="auth-logo">My<span>Closet</span></p>
+      <p class="auth-tagline">הארון הדיגיטלי שלך, עם עין סגנונית משלו</p>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="authTabLogin">התחברות</button>
+        <button type="button" class="auth-tab" id="authTabSignup">הרשמה</button>
+      </div>
+
+      <form class="auth-form" id="authForm">
+        <input type="email" id="authEmail" placeholder="אימייל" required autocomplete="email">
+        <input type="password" id="authPassword" placeholder="סיסמה (לפחות 6 תווים)" required autocomplete="current-password" minlength="6">
+        <div class="auth-error" id="authError"></div>
+        <button type="submit" class="auth-submit" id="authSubmit">התחברות</button>
+      </form>
+
+      <p class="auth-note">הארון, הפרופיל וההיסטוריה שלך נשמרים תחת החשבון שלך — היכנסו עם אותו אימייל בכל פעם כדי לראות אותם שוב.</p>
+    </div>
+  </div>
+
+  <!-- ============ APP SCREEN ============ -->
+  <div id="appScreen" style="display:none;">
+    <div class="app-header">
+      <p class="app-logo">My<span>Closet</span></p>
+      <p class="app-header-sub">הארון הדיגיטלי שלך, עם עין סגנונית משלו</p>
+      <button class="logout-btn" id="logoutBtn" type="button">התנתקות 🔓</button>
+    </div>
+
+    <div class="tab-rack">
+      <button class="tab-btn active" data-tab="closet">👕 הארון שלי</button>
+      <button class="tab-btn" data-tab="profile">🧍 פרופיל אישי</button>
+      <button class="tab-btn" data-tab="outfit">✨ מה ללבוש</button>
+      <button class="tab-btn" data-tab="tryon">📸 בדיקת לוק</button>
+      <button class="tab-btn" data-tab="history">🕓 היסטוריה</button>
+      <button class="tab-btn" data-tab="shopping">🛍️ רשימת קניות</button>
+    </div>
+
+    <div class="app-body">
+
+      <!-- CLOSET -->
+      <section class="tab-section active" id="sec-closet">
+        <div class="card">
+          <h2>הוספת פריט לארון</h2>
+          <p class="sub">העלה תמונה של הבגד — MyCloset ינתח אותו אוטומטית, ואפשר לתקן לפני שמירה.</p>
+
+          <div class="upload-box" id="closetUploadBox">
+            <input type="file" id="closetFileInput" accept="image/*">
+            <div id="closetUploadLabel">📷 לחצו לצילום או בחירה מהגלריה</div>
+            <img id="closetPreview" class="preview-img">
+          </div>
+
+          <div id="closetAnalyzeWrap" style="display:none;margin-top:14px;">
+            <div id="closetAiSeen" class="ai-seen"></div>
+            <div class="row">
+              <div class="field">
+                <label>קטגוריה</label>
+                <select id="closetCategory">
+                  <option value="חולצה">חולצה</option>
+                  <option value="מכנסיים">מכנסיים</option>
+                  <option value="שמלה">שמלה</option>
+                  <option value="נעליים">נעליים</option>
+                  <option value="מעיל/ז'קט">מעיל / ז'קט</option>
+                  <option value="גרביים">גרביים</option>
+                  <option value="כובע">כובע</option>
+                  <option value="תכשיט">תכשיט</option>
+                  <option value="משקפי שמש">משקפי שמש</option>
+                  <option value="אקססוריז">אקססוריז אחר</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>תיאור (אפשר לתקן את מה ש-AI כתב)</label>
+              <textarea id="closetDesc" rows="3" placeholder="לדוגמה: חולצת פשתן לבנה, שרוול ארוך, גזרה רפויה..."></textarea>
+            </div>
+            <div class="btn-row">
+              <button class="btn secondary" id="closetAnalyzeBtn" type="button">🔍 נתח שוב</button>
+              <button class="btn" id="closetSaveBtn" type="button">שמור בארון</button>
+            </div>
+            <div class="error-text" id="closetError"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>הפריטים שלי</h2>
+          <div id="closetGrid"></div>
+          <div id="closetEmpty" class="empty-box">הארון עדיין ריק — התחילו להעלות בגדים ואקססוריז 👗</div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="tab-section" id="sec-profile">
+        <div class="card">
+          <h2>פרופיל אישי</h2>
+          <p class="sub">תמונה, גובה ומשקל עוזרים ל-MyCloset להתאים המלצות למידות שלך.</p>
+
+          <div class="upload-box" id="profileUploadBox">
+            <input type="file" id="profileFileInput" accept="image/*">
+            <div id="profileUploadLabel">📷 לחצו להעלאת תמונת פרופיל</div>
+            <img id="profilePreview" class="preview-img">
+          </div>
+
+          <div class="row" style="margin-top:16px;">
+            <div class="field">
+              <label>גובה (ס״מ)</label>
+              <input type="number" id="profileHeight" placeholder="לדוגמה: 172">
+            </div>
+            <div class="field">
+              <label>משקל (ק״ג)</label>
+              <input type="number" id="profileWeight" placeholder="לדוגמה: 68">
+            </div>
+          </div>
+          <div class="field">
+            <label>הערות סגנון (אופציונלי)</label>
+            <textarea id="profileNotes" rows="2" placeholder="לדוגמה: אוהב/ת צבעים כהים, נמנע/ת מהדפסים בולטים..."></textarea>
+          </div>
+          <button class="btn" id="profileSaveBtn" type="button">שמור פרופיל</button>
+          <span id="profileSaved" class="note-text" style="display:none;">✓ הפרופיל נשמר</span>
+        </div>
+      </section>
+
+      <!-- OUTFIT -->
+      <section class="tab-section" id="sec-outfit">
+        <div class="card">
+          <h2>מה ללבוש היום?</h2>
+          <p class="sub">ספרו לאן אתם יוצאים, ו-MyCloset ישקלל את מזג האוויר, השעה והאופי של האירוע.</p>
+
+          <div class="field">
+            <label>לאן יוצאים / מה אופי הפגישה?</label>
+            <textarea id="outfitOccasion" rows="3" placeholder="לדוגמה: פגישת עבודה חשובה במשרד, אחר הצהריים, רוצה להיראות מקצועי אך לא רשמי מדי"></textarea>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label>עיר / מיקום למזג אוויר</label>
+              <input type="text" id="outfitCity" placeholder="לדוגמה: תל אביב">
+            </div>
+            <div class="field">
+              <label>מתי?</label>
+              <select id="outfitWhen">
+                <option value="עכשיו">עכשיו</option>
+                <option value="הבוקר">הבוקר</option>
+                <option value="הצהריים">הצהריים</option>
+                <option value="הערב">הערב</option>
+                <option value="הלילה">הלילה</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn" id="outfitGoBtn" type="button">✨ תמליץ לי מה ללבוש</button>
+          <div class="error-text" id="outfitError"></div>
+          <div id="outfitResultWrap"></div>
+        </div>
+      </section>
+
+      <!-- TRY-ON -->
+      <section class="tab-section" id="sec-tryon">
+        <div class="card">
+          <h2>בדיקת הלוק</h2>
+          <p class="sub">לבשתם את מה שהומלץ? צלמו את עצמכם ותקבלו ציון וטיפים לשיפור.</p>
+
+          <div class="upload-box" id="tryonUploadBox">
+            <input type="file" id="tryonFileInput" accept="image/*">
+            <div id="tryonUploadLabel">📷 לחצו לצילום / העלאת תמונה</div>
+            <img id="tryonPreview" class="preview-img">
+          </div>
+
+          <button class="btn" id="tryonGoBtn" type="button" style="margin-top:14px;">🎯 תן לי ציון</button>
+          <div class="error-text" id="tryonError"></div>
+          <div id="tryonResultWrap"></div>
+        </div>
+      </section>
+
+      <!-- HISTORY -->
+      <section class="tab-section" id="sec-history">
+        <div class="card">
+          <h2>היסטוריית לוקים</h2>
+          <p class="sub">כל ההמלצות והבדיקות הקודמות שלכם, כולל ציונים ותמונות.</p>
+          <div id="historyList"></div>
+          <div id="historyEmpty" class="empty-box">עוד אין היסטוריה — בקשו המלצת לבוש או בדקו לוק כדי להתחיל 🕓</div>
+        </div>
+      </section>
+
+      <!-- SHOPPING -->
+      <section class="tab-section" id="sec-shopping">
+        <div class="card">
+          <h2>מה כדאי להוסיף לארון?</h2>
+          <p class="sub">MyCloset יבדוק את הארון הקיים וימליץ מה חסר.</p>
+          <button class="btn" id="shoppingGoBtn" type="button">🛍️ נתח את הארון שלי</button>
+          <div class="error-text" id="shoppingError"></div>
+          <ul class="shop-list" id="shoppingList"></ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+<script src="/app.js"></script>
+</body>
+</html>
