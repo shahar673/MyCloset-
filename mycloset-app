@@ -1,7 +1,0 @@
-cd mycloset-app
-git init
-git add .
-git commit -m "MyCloset - initial commit"
-git branch -M main
-git remote add origin https://github.com/USERNAME/mycloset-app.git
-git push -u origin main
