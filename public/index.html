@@ -67,11 +67,13 @@
           <h2>הוספת פריט לארון</h2>
           <p class="sub">העלה תמונה של הבגד — MyCloset ינתח אותו אוטומטית, ואפשר לתקן לפני שמירה.</p>
 
-          <div class="upload-box" id="closetUploadBox">
-            <input type="file" id="closetFileInput" accept="image/*">
-            <div id="closetUploadLabel">📷 לחצו לצילום או בחירה מהגלריה</div>
-            <img id="closetPreview" class="preview-img">
+          <div class="btn-row" style="margin-bottom:10px;">
+            <button type="button" class="btn secondary" id="closetCameraBtn">📷 צלם תמונה</button>
+            <button type="button" class="btn secondary" id="closetGalleryBtn">🖼️ בחר מהגלריה</button>
           </div>
+          <input type="file" id="closetFileInputCamera" accept="image/*" capture="environment" class="hidden-file-input">
+          <input type="file" id="closetFileInputGallery" accept="image/*" class="hidden-file-input">
+          <img id="closetPreview" class="preview-img">
 
           <div id="closetAnalyzeWrap" style="display:none;margin-top:14px;">
             <div id="closetAiSeen" class="ai-seen"></div>
@@ -117,11 +119,13 @@
           <h2>פרופיל אישי</h2>
           <p class="sub">תמונה, גובה ומשקל עוזרים ל-MyCloset להתאים המלצות למידות שלך.</p>
 
-          <div class="upload-box" id="profileUploadBox">
-            <input type="file" id="profileFileInput" accept="image/*">
-            <div id="profileUploadLabel">📷 לחצו להעלאת תמונת פרופיל</div>
-            <img id="profilePreview" class="preview-img">
+          <div class="btn-row" style="margin-bottom:10px;">
+            <button type="button" class="btn secondary" id="profileCameraBtn">📷 צלם תמונה</button>
+            <button type="button" class="btn secondary" id="profileGalleryBtn">🖼️ בחר מהגלריה</button>
           </div>
+          <input type="file" id="profileFileInputCamera" accept="image/*" capture="user" class="hidden-file-input">
+          <input type="file" id="profileFileInputGallery" accept="image/*" class="hidden-file-input">
+          <img id="profilePreview" class="preview-img">
 
           <div class="row" style="margin-top:16px;">
             <div class="field">
@@ -180,11 +184,13 @@
           <h2>בדיקת הלוק</h2>
           <p class="sub">לבשתם את מה שהומלץ? צלמו את עצמכם ותקבלו ציון וטיפים לשיפור.</p>
 
-          <div class="upload-box" id="tryonUploadBox">
-            <input type="file" id="tryonFileInput" accept="image/*">
-            <div id="tryonUploadLabel">📷 לחצו לצילום / העלאת תמונה</div>
-            <img id="tryonPreview" class="preview-img">
+          <div class="btn-row" style="margin-bottom:10px;">
+            <button type="button" class="btn secondary" id="tryonCameraBtn">📷 צלם תמונה</button>
+            <button type="button" class="btn secondary" id="tryonGalleryBtn">🖼️ בחר מהגלריה</button>
           </div>
+          <input type="file" id="tryonFileInputCamera" accept="image/*" capture="user" class="hidden-file-input">
+          <input type="file" id="tryonFileInputGallery" accept="image/*" class="hidden-file-input">
+          <img id="tryonPreview" class="preview-img">
 
           <button class="btn" id="tryonGoBtn" type="button" style="margin-top:14px;">🎯 תן לי ציון</button>
           <div class="error-text" id="tryonError"></div>
