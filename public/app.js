@@ -144,7 +144,6 @@
   document.getElementById('closetGalleryBtn').addEventListener('click', () => closetFileInputGallery.click());
   const closetPreview = document.getElementById('closetPreview');
   const closetAnalyzeWrap = document.getElementById('closetAnalyzeWrap');
-  const closetAnalyzeWrap = document.getElementById('closetAnalyzeWrap');
   const closetAiSeen = document.getElementById('closetAiSeen');
   const closetDesc = document.getElementById('closetDesc');
   const closetCategory = document.getElementById('closetCategory');
