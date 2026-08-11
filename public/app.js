@@ -138,10 +138,12 @@
   });
 
   /* --------------------------------- closet ------------------------------------ */
-  const closetFileInput = document.getElementById('closetFileInput');
-  document.getElementById('closetUploadBox').addEventListener('click', () => closetFileInput.click());
+  const closetFileInputCamera = document.getElementById('closetFileInputCamera');
+  const closetFileInputGallery = document.getElementById('closetFileInputGallery');
+  document.getElementById('closetCameraBtn').addEventListener('click', () => closetFileInputCamera.click());
+  document.getElementById('closetGalleryBtn').addEventListener('click', () => closetFileInputGallery.click());
   const closetPreview = document.getElementById('closetPreview');
-  const closetUploadLabel = document.getElementById('closetUploadLabel');
+  const closetAnalyzeWrap = document.getElementById('closetAnalyzeWrap');
   const closetAnalyzeWrap = document.getElementById('closetAnalyzeWrap');
   const closetAiSeen = document.getElementById('closetAiSeen');
   const closetDesc = document.getElementById('closetDesc');
@@ -167,20 +169,21 @@
     }
   }
 
-  closetFileInput.addEventListener('change', async () => {
-    const file = closetFileInput.files[0];
+  async function handleClosetFile(input) {
+    const file = input.files[0];
     if (!file) return;
     closetError.textContent = '';
     const dataUrl = await resizeImage(file, 800);
     pendingClosetImage = dataUrl;
     closetPreview.src = dataUrl;
     closetPreview.style.display = 'block';
-    closetUploadLabel.style.display = 'none';
     closetAnalyzeWrap.style.display = 'block';
     closetDesc.value = '';
     closetAiSeen.innerHTML = '';
     analyzeClosetImage();
-  });
+  }
+  closetFileInputCamera.addEventListener('change', () => handleClosetFile(closetFileInputCamera));
+  closetFileInputGallery.addEventListener('change', () => handleClosetFile(closetFileInputGallery));
 
   document.getElementById('closetAnalyzeBtn').addEventListener('click', async () => {
     if (!pendingClosetImage) { closetError.textContent = 'יש להעלות תמונה קודם'; return; }
@@ -199,9 +202,9 @@
       state.closet.push(item);
       renderCloset();
       pendingClosetImage = null;
-      closetFileInput.value = '';
+      closetFileInputCamera.value = '';
+      closetFileInputGallery.value = '';
       closetPreview.style.display = 'none';
-      closetUploadLabel.style.display = 'block';
       closetAnalyzeWrap.style.display = 'none';
       closetDesc.value = '';
       closetAiSeen.innerHTML = '';
@@ -254,27 +257,28 @@
   }
 
   /* --------------------------------- profile ------------------------------------ */
-  const profileFileInput = document.getElementById('profileFileInput');
-  document.getElementById('profileUploadBox').addEventListener('click', () => profileFileInput.click());
+  const profileFileInputCamera = document.getElementById('profileFileInputCamera');
+  const profileFileInputGallery = document.getElementById('profileFileInputGallery');
+  document.getElementById('profileCameraBtn').addEventListener('click', () => profileFileInputCamera.click());
+  document.getElementById('profileGalleryBtn').addEventListener('click', () => profileFileInputGallery.click());
   const profilePreview = document.getElementById('profilePreview');
-  const profileUploadLabel = document.getElementById('profileUploadLabel');
   let pendingProfileImage = null;
 
-  profileFileInput.addEventListener('change', async () => {
-    const file = profileFileInput.files[0];
+  async function handleProfileFile(input) {
+    const file = input.files[0];
     if (!file) return;
     const dataUrl = await resizeImage(file, 700);
     pendingProfileImage = dataUrl;
     profilePreview.src = dataUrl;
     profilePreview.style.display = 'block';
-    profileUploadLabel.style.display = 'none';
-  });
+  }
+  profileFileInputCamera.addEventListener('change', () => handleProfileFile(profileFileInputCamera));
+  profileFileInputGallery.addEventListener('change', () => handleProfileFile(profileFileInputGallery));
 
   function renderProfile() {
     if (state.profile.photo) {
       profilePreview.src = state.profile.photo;
       profilePreview.style.display = 'block';
-      profileUploadLabel.style.display = 'none';
       pendingProfileImage = state.profile.photo;
     }
     document.getElementById('profileHeight').value = state.profile.height || '';
@@ -354,21 +358,23 @@
   });
 
   /* --------------------------------- try-on ------------------------------------ */
-  const tryonFileInput = document.getElementById('tryonFileInput');
-  document.getElementById('tryonUploadBox').addEventListener('click', () => tryonFileInput.click());
+  const tryonFileInputCamera = document.getElementById('tryonFileInputCamera');
+  const tryonFileInputGallery = document.getElementById('tryonFileInputGallery');
+  document.getElementById('tryonCameraBtn').addEventListener('click', () => tryonFileInputCamera.click());
+  document.getElementById('tryonGalleryBtn').addEventListener('click', () => tryonFileInputGallery.click());
   const tryonPreview = document.getElementById('tryonPreview');
-  const tryonUploadLabel = document.getElementById('tryonUploadLabel');
   let pendingTryonImage = null;
 
-  tryonFileInput.addEventListener('change', async () => {
-    const file = tryonFileInput.files[0];
+  async function handleTryonFile(input) {
+    const file = input.files[0];
     if (!file) return;
     const dataUrl = await resizeImage(file, 800);
     pendingTryonImage = dataUrl;
     tryonPreview.src = dataUrl;
     tryonPreview.style.display = 'block';
-    tryonUploadLabel.style.display = 'none';
-  });
+  }
+  tryonFileInputCamera.addEventListener('change', () => handleTryonFile(tryonFileInputCamera));
+  tryonFileInputGallery.addEventListener('change', () => handleTryonFile(tryonFileInputGallery));
 
   document.getElementById('tryonGoBtn').addEventListener('click', async () => {
     const errBox = document.getElementById('tryonError');
